@@ -1,0 +1,13 @@
+{
+  "name": "MediaAgentSuite",
+  "owner": {
+    "name": "LuckyKit"
+  },
+  "plugins": [
+    {
+      "name": "media-agent-suite",
+      "source": ".",
+      "description": "Twitter/X 爆款运营：发现热门、分析规律、生成文案、发布推文"
+    }
+  ]
+}

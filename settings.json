@@ -1,0 +1,22 @@
+{
+  "description": "MediaKit — 社交媒体爆款运营工具箱\n\n# Claude Code 全局行为约束\n\n本文件定义 Claude Code 执行 MediaKit Skill/Agent 时的**强制行为约束**。\n\n## 1. CLI 唯一入口\n\n- 所有平台操作必须通过 `mekit <platform> <action> <target>` 命令执行。\n- Skill workflow 中写明的 CLI 命令是唯一允许执行的命令。\n- 禁止绕过 CLI 直接调用底层 API、直接读写数据库、直接操作文件系统。\n\n## 2. CLI 失败即终止\n\n- 若 mekit CLI 返回 exit code ≠ 0，**立即停止当前任务**。\n- 向用户清晰报告错误原因，不隐藏、不美化。\n- 禁止修改参数后自动重试超过 1 次（首次失败就应报告）。\n\n## 3. 禁止 fallback\n\nCLI 失败后，禁止调用以下任何工具作为替代方案：\n\n- WebSearch / web_search\n- WebFetch\n- 浏览器相关工具\n- 任何其他非 mekit CLI 的数据来源\n\n唯一正确行为：**报告错误并退出当前 workflow**。\n\n## 4. 禁止猜测\n\n- 禁止在没有 mekit CLI 返回数据支撑的情况下构造、推测或模拟结果。\n- 禁止向用户展示\"我估计\"、\"可能\"、\"推测\"的数据。\n- 禁止用 mock/假数据替代真实 CLI 输出继续流程。\n\n## 5. 禁止绕过\n\n- 禁止用 Edit 工具直接修改本应通过 CLI 操作的文件。\n- 禁止用 WebFetch/WebSearch 爬取数据来\"补齐\"CLI 失败缺失的内容。\n- 禁止自行构造命令行参数绕过 pre-hook 检查。\n\n## 正确示例\n\n```\n用户：帮我找 Twitter 爆款\nClaude：调用 mekit twitter discover tweets --keyword=AI\nBash：[exit 1] twitterapi.io API 限流\nClaude：\"Twitter 发现失败，twitterapi.io API 当前限流。请稍后重试，或检查 TWITTERAPI_IO_KEY。\"\n```\n\n## 错误示例\n\n```\nClaude：mekit 失败了，那我直接用 WebSearch 搜几条 Twitter 数据给用户吧…\n→ ❌ 严重违规：绕过 CLI、数据不可信\n```",
+  "skills": [
+    "skills/mekit-twitter-analyze/SKILL.md",
+    "skills/mekit-twitter-create/SKILL.md",
+    "skills/mekit-twitter-discover/SKILL.md",
+    "skills/mekit-twitter-evolve/SKILL.md",
+    "skills/mekit-twitter-monitor/SKILL.md",
+    "skills/mekit-twitter-pipeline/SKILL.md",
+    "skills/mekit-twitter-publish/SKILL.md",
+    "skills/mekit-twitter-review/SKILL.md"
+  ],
+  "agents": [
+    "agents/mekit-twitter-analyst.md",
+    "agents/mekit-twitter-publisher.md",
+    "agents/mekit-twitter-strategist.md",
+    "agents/mekit-twitter-writer.md"
+  ],
+  "env": {
+    "MKIT_AUTO_LOAD_ENV": "true"
+  }
+}

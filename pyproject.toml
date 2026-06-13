@@ -1,0 +1,25 @@
+# pyproject.toml — MediaAgentSuite 插件 CLI
+#
+# 安装：
+#   pip install git+https://github.com/LuckyKit/media-agent-suite-cc-plugin.git
+#   mekit 命令即全局可用。
+#
+# 依赖极简：只依赖 requests（HTTP 调用）+ Python 标准库。
+
+[project]
+name = "mediakit"
+version = "0.1.0"
+description = "MediaAgentSuite — 社交媒体爆款运营工具箱 CLI"
+requires-python = ">=3.11"
+license = "MIT"
+
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.scripts]
+mekit = "cli.mekit:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cli*", "tools*"]
